@@ -1,0 +1,6 @@
+<?php $allobs=$pdo->query("SELECT visitor_name,observer_chapter,observer_category,amount,payment_method,status,friday_date FROM transactions WHERE type='Observer' ORDER BY friday_date DESC,submitted_at DESC")->fetchAll(); ?>
+<div class="content"><div class="scard">
+<div class="d-flex justify-content-between align-items-center mb-3"><strong>All Observer Records (<?=count($allobs)?>)</strong></div>
+<table class="tbl"><thead><tr><th>#</th><th>Name</th><th>Chapter</th><th>Category</th><th>Date</th><th>Amt</th><th>Mode</th><th>Status</th></tr></thead><tbody>
+<?php foreach($allobs as $i=>$r): ?><tr><td class="text-muted"><?=$i+1?></td><td><strong><?=htmlspecialchars($r['visitor_name'])?></strong></td><td class="text-muted"><?=htmlspecialchars($r['observer_chapter']??'—')?></td><td class="text-muted"><?=htmlspecialchars($r['observer_category']??'—')?></td><td class="text-muted"><?=date('d M Y',strtotime($r['friday_date']))?></td><td>₹<?=number_format($r['amount'])?></td><td><span class="badge-mode"><?=$r['payment_method']?></span></td><td><?=$r['status']==='Paid'?'<span class="badge-paid">Paid</span>':($r['status']==='Pending'?'<span class="badge-pend">Pending</span>':'<span class="badge-unp">Rejected</span>')?></td></tr><?php endforeach; ?>
+</tbody></table></div></div>
